@@ -1,0 +1,28 @@
+package pages
+
+import "github.com/danfaiole/erp_go/internal/views/layouts"
+
+templ Login() {
+  @layouts.Base("Home") {
+    <h1 class="text-3xl text-center font-bold">Login</h1>
+		<div class="flex justify-center my-2">
+			<form method="post" class="w-2/5 text-sm">
+				<div class="form-control mb-3 w-full space-y-1">
+					<label for="email" class="font-semibold mb-2">E-mail:</label>
+					<input id="email" name="email" type="email" placeholder="someone@email.com" class="input input-bordered text-sm"/>
+					<span id="email-errors" class="text-sm text-error"></span>
+				</div>
+				<div class="form-control mb-3 space-y-1">
+					<label for="password1" class="font-semibold mb-2">Password:</label>
+					<input id="password1" name="password1" type="password" placeholder="Type your password" class="input input-bordered text-sm"/>
+					<span id="password1-errors" class="text-sm text-error"></span>
+				</div>
+				<div class="flex justify-center">
+					<button class="btn btn-primary">
+						Login
+					</button>
+				</div>
+			</form>
+		</div>
+  }
+}
