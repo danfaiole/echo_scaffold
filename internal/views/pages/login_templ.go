@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/danfaiole/erp_go/internal/views/layouts"
 
-func Home() templ.Component {
+func Login() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,7 +43,7 @@ func Home() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1 class=\"text-center text-2xl font-bold\">Welcome to the Go + HTMX + Go-templ Tutorial!</h1><div class=\"flex justify-center my-5\"><div class=\"card w-96 bg-primary text-primary-content\"><div class=\"card-body\"><h2 class=\"card-title\">Go to the form tutorial</h2><p>Go to the register form to play with basic htmx methods.</p><div class=\"card-actions justify-end\"><a href=\"/login\" class=\"btn\">Login</a></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1 class=\"text-3xl text-center font-bold\">Login</h1><div class=\"flex justify-center my-2\"><form method=\"post\" class=\"w-2/5 text-sm\"><div class=\"form-control mb-3 w-full space-y-1\"><label for=\"email\" class=\"font-semibold mb-2\">E-mail:</label> <input id=\"email\" name=\"email\" type=\"email\" placeholder=\"someone@email.com\" class=\"input input-bordered text-sm\"> <span id=\"email-errors\" class=\"text-sm text-error\"></span></div><div class=\"form-control mb-3 space-y-1\"><label for=\"password1\" class=\"font-semibold mb-2\">Password:</label> <input id=\"password1\" name=\"password1\" type=\"password\" placeholder=\"Type your password\" class=\"input input-bordered text-sm\"> <span id=\"password1-errors\" class=\"text-sm text-error\"></span></div><div class=\"flex justify-center\"><button class=\"btn btn-primary\">Login</button></div></form></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
