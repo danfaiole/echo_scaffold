@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/danfaiole/erp_go/internal/handlers"
-	"github.com/danfaiole/erp_go/internal/utils"
+	"github.com/danfaiole/erp_go/internal/initializers"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -14,8 +14,11 @@ import (
 func main() {
 	ech := echo.New()
 
-	// Loads all env vars for the system
-	utils.LoadEnvVars()
+	// Loads system dependencies
+	initializers.LoadEnvVars()
+	dbPool := initializers.ConnectDB()
+
+	defer dbPool.Close()
 
 	// Serve static files like js, css
 	ech.Static("/static", "assets")

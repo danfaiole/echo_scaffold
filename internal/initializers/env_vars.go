@@ -1,4 +1,4 @@
-package utils
+package initializers
 
 import (
 	"log"
@@ -34,5 +34,4 @@ func LoadEnvVars() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
 }
