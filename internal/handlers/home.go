@@ -1,29 +1,42 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/danfaiole/erp_go/internal/database"
 	"github.com/danfaiole/erp_go/internal/views/pages"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
-func homePage(ctx echo.Context) error {
+type SessionHandler struct {
+	queries *database.Queries
+	ctxBack context.Context
+}
+
+func (h SessionHandler) homePage(ctx echo.Context) error {
 	return render(ctx, http.StatusOK, pages.Home())
 }
 
-func loginPage(ctx echo.Context) error {
+func (h SessionHandler) loginPage(ctx echo.Context) error {
 	return render(ctx, http.StatusOK, pages.Login())
 }
 
-func createSession(ctx echo.Context) error {
+func (h SessionHandler) createSession(ctx echo.Context) error {
 	sess, err := session.Get("session", ctx)
 
 	log.Println(ctx.FormValue("email"))
 	log.Println(ctx.FormValue("password1"))
+
+	h.queries.CreateUser(h.ctxBack, database.CreateUserParams{
+		Username: ctx.FormValue("email"),
+		Password: ctx.FormValue("password1"),
+		Email:    ctx.FormValue("email"),
+	})
 
 	if err != nil {
 		return err
@@ -38,13 +51,21 @@ func createSession(ctx echo.Context) error {
 		return err
 	}
 
-	return readSession(ctx)
+	return h.readSession(ctx)
 }
 
-func readSession(ctx echo.Context) error {
+func (h SessionHandler) readSession(ctx echo.Context) error {
 	sess, err := session.Get("session", ctx)
 	if err != nil {
 		return err
 	}
+
+	resp, err := h.queries.GetUser(h.ctxBack, 1)
+	if err != nil {
+		loger := ctx.Logger()
+		loger.Info(resp)
+	}
+	log.Println(resp)
+
 	return ctx.String(http.StatusOK, fmt.Sprintf("foo=%v\n", sess.Values["test"]))
 }
