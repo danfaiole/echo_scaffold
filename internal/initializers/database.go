@@ -82,7 +82,7 @@ func NewLoggingQueryTracer(logger *zerolog.Logger) *LoggingQueryTracer {
 }
 
 func (l *LoggingQueryTracer) TraceQueryStart(ctx context.Context, conn *pgx.Conn, data pgx.TraceQueryStartData) context.Context {
-	l.logger.Log().
+	l.logger.Info().
 		Str("query", prettyPrintSQL(data.SQL)).
 		Any("args", data.Args).
 		Msg("Query Start")
@@ -102,7 +102,7 @@ func (l *LoggingQueryTracer) TraceQueryEnd(ctx context.Context, conn *pgx.Conn, 
 	}
 
 	// Success
-	l.logger.Log().
+	l.logger.Info().
 		Str("return", data.CommandTag.String()).
 		Msg("Query End")
 }

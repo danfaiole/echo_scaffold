@@ -23,18 +23,22 @@ func ConfigLogger(ech *echo.Echo) zerolog.Logger {
 	}
 
 	ech.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogURI:    true,
-		LogStatus: true,
+		LogRoutePath: true,
+		LogStatus:    true,
+		LogLatency:   true,
+		LogHost:      true,
+		LogMethod:    true,
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
 			logger.Info().
-				Str("URI", v.URI).
+				Str("http_method", v.Method).
+				Str("route", v.RoutePath).
 				Int("status", v.Status).
+				Str("latency", v.Latency.String()).
+				Str("host", v.Host).
 				Msg("request")
 
 			return nil
 		},
-		LogLatency: true,
-		LogHost:    true,
 	}))
 
 	return logger
