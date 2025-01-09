@@ -43,7 +43,6 @@ func ConnectDB(logger *zerolog.Logger) *pgxpool.Pool {
 	)
 
 	config, err := pgxpool.ParseConfig(configString)
-
 	if err != nil {
 		logger.Error().Err(err).Msg("Error on the config string, please check env vars")
 	}
@@ -85,7 +84,7 @@ func (l *LoggingQueryTracer) TraceQueryStart(ctx context.Context, conn *pgx.Conn
 	l.logger.Info().
 		Str("query", prettyPrintSQL(data.SQL)).
 		Any("args", data.Args).
-		Msg("Query Start")
+		Msg("db_request - start")
 
 	return ctx
 }
@@ -96,7 +95,7 @@ func (l *LoggingQueryTracer) TraceQueryEnd(ctx context.Context, conn *pgx.Conn, 
 		l.logger.Error().
 			Str("return", data.CommandTag.String()).
 			Str("error", data.Err.Error()).
-			Msg("Query End")
+			Msg("db_request - end")
 
 		return
 	}
@@ -104,7 +103,7 @@ func (l *LoggingQueryTracer) TraceQueryEnd(ctx context.Context, conn *pgx.Conn, 
 	// Success
 	l.logger.Info().
 		Str("return", data.CommandTag.String()).
-		Msg("Query End")
+		Msg("db_request - end")
 }
 
 // https://github.com/jackc/pgx/discussions/1677#discussioncomment-8815982

@@ -35,7 +35,7 @@ func ConfigLogger(ech *echo.Echo) zerolog.Logger {
 				Int("status", v.Status).
 				Str("latency", v.Latency.String()).
 				Str("host", v.Host).
-				Msg("request")
+				Msg("server_request")
 
 			return nil
 		},

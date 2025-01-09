@@ -62,8 +62,8 @@ func (h SessionHandler) readSession(ctx echo.Context) error {
 
 	resp, err := h.queries.GetUser(h.ctxBack, 1)
 	if err != nil {
-		loger := ctx.Logger()
-		loger.Info(resp)
+		logger := ctx.Logger()
+		logger.Info(resp)
 	}
 	log.Println(resp)
 

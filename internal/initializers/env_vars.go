@@ -32,6 +32,7 @@ func LoadEnvVars() {
 	}
 
 	if err != nil {
+		log.Println(err)
 		log.Fatal("Error loading .env file")
 	}
 }
