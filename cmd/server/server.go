@@ -29,7 +29,7 @@ func main() {
 	ech.Use(middleware.Secure())
 
 	// Loads endpoints into echo instance
-	handlers.LoadRoutes(ech, dbPool)
+	handlers.LoadRoutes(ech, dbPool, &logger)
 
 	ech.Logger.Fatal(ech.Start(":1323"))
 }

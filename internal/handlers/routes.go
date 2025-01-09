@@ -7,12 +7,16 @@ import (
 	"github.com/danfaiole/erp_go/internal/database"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/zerolog"
 )
+
+var Log *zerolog.Logger
 
 // LoadRoutes does what the name says, it inserts all the routes into the
 // echo instance. We're using structs to organize better the handlers, so please
 // keep with the defaults.
-func LoadRoutes(e *echo.Echo, dbPool *pgxpool.Pool) {
+func LoadRoutes(e *echo.Echo, dbPool *pgxpool.Pool, logger *zerolog.Logger) {
+	Log = logger
 	// Load the queries
 	queries := database.New(dbPool)
 	// Session Routes
