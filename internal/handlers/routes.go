@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/a-h/templ"
 	"github.com/danfaiole/erp_go/internal/database"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
 )
@@ -24,10 +26,23 @@ func LoadRoutes(e *echo.Echo, dbPool *pgxpool.Pool, logger *zerolog.Logger) {
 		queries: queries,
 		ctxBack: context.Background(),
 	}
-	e.GET("/", sessHandler.homePage)
-	e.GET("/login", sessHandler.loginPage)
-	e.POST("/login", sessHandler.createSession)
-	e.GET("/showup", sessHandler.readSession)
+	g := e.Group("/")
+	g.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			sess, _ := session.Get("session", c)
+
+			if sess != nil {
+				return next(c)
+			}
+
+			return echo.NewHTTPError(http.StatusUnauthorized, "Please provide valid credentials")
+		}
+	})
+
+	g.GET("/", sessHandler.homePage)
+	g.GET("/login", sessHandler.loginPage)
+	g.POST("/login", sessHandler.createSession)
+	g.GET("/showup", sessHandler.readSession)
 }
 
 // render is a shortcut function to the render function for templ

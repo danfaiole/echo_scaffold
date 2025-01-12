@@ -18,6 +18,7 @@ func main() {
 	initializers.LoadEnvVars()
 	logger := initializers.ConfigLogger(ech)
 	dbPool := initializers.ConnectDB(&logger)
+	initializers.ConfigErrors(ech, &logger)
 
 	defer dbPool.Close()
 
